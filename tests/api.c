@@ -16937,6 +16937,17 @@ static int test_wc_PKCS7_VerifySignedData_RSA(void)
     }
 #endif /* !NO_RSA */
 
+#ifdef PKCS7_ALLOW_NO_CONTENT
+    /* Test no content */
+    outputSz = sizeof(output);
+    XMEMSET(output, 0, outputSz);
+    ExpectIntGT((outputSz = (word32)CreatePKCS7SignedData(output, (int)outputSz,
+        NULL, 0, 0, 0, 1, RSA_TYPE)), 0);
+    AssertNotNull(pkcs7 = wc_PKCS7_New(HEAP_HINT, testDevId));
+    AssertIntEQ(wc_PKCS7_InitWithCert(pkcs7, NULL, 0), 0);
+    AssertIntEQ(wc_PKCS7_VerifySignedData(pkcs7, output, outputSz), 0);
+#endif
+
     /* Test verify on signedData containing intermediate/root CA certs */
 #ifndef NO_RSA
     outputSz = sizeof(output);
