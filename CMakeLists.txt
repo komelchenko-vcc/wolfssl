@@ -2117,6 +2117,10 @@ if(WOLFSSL_PKCS7)
     if(WOLFSSL_ECC)
         override_cache(WOLFSSL_X963KDF "yes")
     endif()
+
+    if (WOLFSSL_PKCS7_ALLOW_NO_CONTENT)
+        list(APPEND WOLFSSL_DEFINITIONS "-DPKCS7_ALLOW_NO_CONTENT")
+    endif ()
 endif()
 
 if(WOLFSSL_X963KDF)

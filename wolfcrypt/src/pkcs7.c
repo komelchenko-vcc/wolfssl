@@ -4477,8 +4477,12 @@ static int wc_PKCS7_VerifyContentMessageDigest(wc_PKCS7* pkcs7,
 
     if ((pkcs7->content == NULL || pkcs7->contentSz == 0) &&
         (hashBuf == NULL || hashSz == 0)) {
+#ifdef PKCS7_ALLOW_NO_CONTENT
+        return 0;
+#else
         WOLFSSL_MSG("SignedData bundle has no content or hash to verify");
         return BAD_FUNC_ARG;
+#endif
     }
 
     /* lookup messageDigest attribute */
